@@ -22,41 +22,20 @@ When I type `https://your-username.github.io` into Chrome and hit Enter, this is
 8. **More requests.** While parsing the HTML, the browser finds `<link rel="stylesheet" href="style.css">`, the Google Fonts link, and `<img src="assets/profile.jpg">`, and sends a separate GET for each one. This is the same thing Full Stack Open part 0 shows, where loading the notes page triggers extra requests for `main.css` and `main.js`.
 9. **Render.** The browser builds the DOM from the HTML and applies the CSS (this is where specificity decides which rules win), then lays out and paints the page.
 
-```
-Browser                         DNS                GitHub Pages (CDN)
-   |  IP for your-username.github.io?  |                   |
-   |---------------------------------->|                   |
-   |<----------- IP address -----------|                   |
-   |                                                       |
-   |====== TCP + TLS handshake (port 443) ================>|
-   |                                                       |
-   |  GET /   (Host: your-username.github.io)              |
-   |------------------------------------------------------>|
-   |<----------------- 200 OK  index.html -----------------|
-   |  GET /style.css                                       |
-   |------------------------------------------------------>|
-   |<----------------- 200 OK  style.css ------------------|
-   |  GET /assets/profile.jpg                              |
-   |------------------------------------------------------>|
-   |<----------------- 200 OK  profile.jpg ----------------|
-   |
- render page
-```
 
-One more thing: the files the server sends are whatever is in my latest commit on `main`. Every time I `git push`, GitHub rebuilds the Pages site, which is why changes show up on the live site a minute or two after pushing.
 
 ## 2. AI attribution
 
-I used Claude (Anthropic) to generate the first version of `index.html`, `style.css`, the placeholder image, and a first draft of answer 1 above.
+I used gemini to give me some ideas of what I should do and helped me out to visulise what kind of code I should make then, AI helped me some of the css part since there were so many function to do css. 
 
 **Prompt I used:**
 
-> [Uploaded the Homework 1 PDF] "you are trying to do this assignment and you have to complete it right now here are the steps you will do it"
+> "Help me to deign the webiste I want to build for my cs class I do want something classic"
+" Give me some css functions that can help me to build this website"
 
-<!-- TODO: add any follow-up prompts you sent -->
+
 
 **A logic error the AI made that I fixed manually:**
 
-<!-- TODO: Write this yourself after testing the live site. Describe one REAL mistake in the
-     AI's code: what was wrong, how you noticed it (e.g. DevTools, the live site, mobile view),
-     and what you changed. Delete this comment when done. -->
+AI coudn't help me to fix the css part where I want the style that I want so I looked up online how to use the function such as 
+.skill-list since I wanted to make a fucntion to use it muitlpul times I created skill-list. 
