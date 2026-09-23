@@ -1,0 +1,431 @@
+
+:root {
+  --paper: #F5F6F8;
+  --surface: #FFFFFF;
+  --ink: #1F2330;
+  --muted: #5B6170;
+  --rule: #D9DCE3;
+  --seven: #B933AD;
+  --seven-deep: #7E2176;
+  --seven-tint: #F6E8F5;
+
+  --font-head: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  border-top: 6px solid var(--seven);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
+  line-height: 1.15;
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  font-weight: 800;
+  font-stretch: 75%;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-stretch: 85%;
+  margin-bottom: 1.25rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+  font-weight: 650;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--seven-deep);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--seven);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--seven);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Header, main and footer share one centered column */
+header,
+main,
+footer {
+  width: min(46rem, 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+section {
+  padding-top: 3rem;
+  scroll-margin-top: 3.5rem; /* so the sticky nav doesn't cover headings */
+}
+
+
+/* ============================================================
+   SPECIFICITY CHALLENGE
+
+   All three rules below set `color` on the SAME element:
+   the <p class="lead"> inside <section id="about">.
+
+   Specificity is written as (IDs, classes, elements):
+
+     Rule A:  p               ->  (0,0,1)   1 element
+     Rule B:  #about p.lead   ->  (1,1,1)   1 ID + 1 class + 1 element
+     Rule C:  .lead           ->  (0,1,0)   1 class
+
+   Which one won?  Rule B, "#about p.lead". The intro paragraph
+   shows up dark purple, not ink or grey.
+
+   Why: the browser compares the ID column first. Rule B has 1 ID
+   and the others have 0, so B wins right there. The other columns
+   don't matter once the ID column is different.
+
+   I put Rule C (.lead) LAST on purpose. If source order decided
+   this, .lead would win because it comes later in the file. It
+   doesn't, because source order only breaks ties between rules
+   with EQUAL specificity. (1,1,1) is higher than (0,1,0), so B
+   still wins even though it comes first.
+
+   Rule C vs Rule A on their own: (0,1,0) beats (0,0,1), because
+   one class beats any number of element selectors. So C's
+   font-size still applies (nothing else sets font-size on this
+   paragraph), but its color gets crossed out in DevTools.
+   ============================================================ */
+
+/* Rule A: element selector, (0,0,1) */
+p {
+  color: var(--ink);
+}
+
+/* Rule B: ID + element + class, (1,1,1)  <-- WINS */
+#about p.lead {
+  color: var(--seven-deep);
+}
+
+/* Rule C: class selector, (0,1,0) */
+.lead {
+  color: var(--muted);
+  font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+/* ================= end of specificity challenge ============== */
+
+
+/* ---------- Header ---------- */
+.site-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: end;
+  padding: 4rem 0 2.5rem;
+}
+
+/* Round photo with a purple ring, like a subway route bullet */
+.photo {
+  width: 9rem;
+  height: 9rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid var(--seven);
+  background: var(--seven-tint);
+}
+
+.tagline {
+  color: var(--muted);
+  font-size: 1.125rem;
+  max-width: 34rem;
+  margin: 0.9rem 0 0.25rem;
+}
+
+.location {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0;
+}
+
+
+/* ---------- Navigation (ID selector) ---------- */
+#site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--paper);
+  border-block: 1px solid var(--rule);
+}
+
+#site-nav ul {
+  width: min(46rem, 100% - 2.5rem);
+  margin: 0 auto;
+  padding: 0.75rem 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+#site-nav a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* needs the ID too, otherwise "#site-nav a" (1,0,1) would beat "a:hover" (0,1,1) */
+#site-nav a:hover {
+  color: var(--seven-deep);
+  text-decoration: underline;
+}
+
+
+/* ---------- Education and experience: drawn like a train line ----------
+   Each <li class="stop"> is a station. The purple line runs from one
+   station dot down to the next. The filled dot is where I am now. */
+.route {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.stop {
+  position: relative;
+  padding: 0 0 2.25rem 2.75rem;
+}
+
+/* the line segment going down to the next stop */
+.stop::before {
+  content: "";
+  position: absolute;
+  left: calc(0.6875rem - 3px);
+  top: 0.6875rem;
+  bottom: -0.6875rem;
+  width: 6px;
+  background: var(--seven);
+}
+
+/* no line after the last stop */
+.stop:last-child::before {
+  display: none;
+}
+
+/* the station dot */
+.stop::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 5px solid var(--seven);
+}
+
+.stop.current::after {
+  background: var(--seven);
+}
+
+.org {
+  font-family: var(--font-head);
+  color: var(--muted);
+  margin: 0.25rem 0 0;
+}
+
+.when {
+  font-family: var(--font-head);
+  font-size: 0.9rem;
+  color: var(--seven-deep);
+  margin: 0.15rem 0 0;
+}
+
+.points {
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.points li {
+  margin-bottom: 0.35rem;
+}
+
+
+/* ---------- Coursework table ---------- */
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  font-size: 1rem;
+}
+
+caption {
+  text-align: left;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  color: var(--muted);
+  padding-bottom: 0.6rem;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+th {
+  font-family: var(--font-head);
+  font-size: 0.95rem;
+  font-weight: 650;
+  border-bottom: 2px solid var(--ink);
+}
+
+td:first-child {
+  font-family: var(--font-head);
+  font-weight: 600;
+  width: 38%;
+}
+
+
+/* ---------- Skills ---------- */
+.skill-groups {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.skill-groups h3 {
+  margin-bottom: 0.75rem;
+}
+
+.skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.two-col {
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.skill-list li {
+  position: relative;
+  padding-left: 1.1rem;
+  margin-bottom: 0.4rem;
+  break-inside: avoid;
+}
+
+.skill-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--seven);
+}
+
+
+/* ---------- Contact ---------- */
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  font-family: var(--font-head);
+  font-weight: 600;
+}
+
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: 4rem;
+  padding: 1.5rem 0 3rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.95rem;
+}
+
+/* (0,0,2) beats the plain "p" rule (0,0,1) */
+footer p {
+  color: var(--muted);
+  margin: 0 0 0.25rem;
+}
+
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  .site-header {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-top: 2.5rem;
+  }
+
+  .photo {
+    width: 7rem;
+    height: 7rem;
+  }
+
+  .skill-groups {
+    grid-template-columns: 1fr;
+  }
+
+  td:first-child {
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
