@@ -16,7 +16,8 @@ It also changes what the alignment properties do. `justify-content` always works
 
 A pixel value is the same size on every screen. If I make a box `1200px` wide it fits on a laptop, but on a phone that is only 375px wide it goes off the side and you have to scroll sideways. Relative units are based on something else, so they change with the screen.
 
-This means one rule can work on a phone, a laptop, and a big monitor, so I need fewer media queries. If someone makes the default font size bigger in their browser settings, sizes in `rem` grow with it, but sizes in `px` do not.
+This means one rule can work on a phone, a laptop, and a big monitor, so I need fewer media queries. git add index.html style.css REFLECTION.md
+If someone makes the default font size bigger in their browser settings, sizes in `rem` grow with it, but sizes in `px` do not.
 
 In my site the projects section is `width: 90%`, the hero is `min-height: 50vh`, the grid is `repeat(3, 1fr)`, and my font sizes and most of my padding are in `rem`. I still used `px` for small things like borders and rounded corners, for `max-width: 1100px` so the page does not get too wide, and for the 768px breakpoint.
 
